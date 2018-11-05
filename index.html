@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hit your url!</title>
+    <link href="https://cdn.bootcss.com/bootswatch/4.1.3/materia/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+    <div class="jumbotron" style="width: 90%; margin: auto; margin-top: 5%;">
+        <div id="alert_area">
+
+        </div>
+        <div class="form-group">
+            <label class="col-form-label" for="url">输网址~</label>
+            <input type="text" class="form-control" placeholder="输入网址！" id="url">
+            <br>
+            <button type="button" class="btn btn-outline-primary" id="submit">开刷</button>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    //睡眠函数
+    function sleep(n) {
+        var start = new Date().getTime();
+        //  console.log('休眠前：' + start);
+        while (true) {
+            if (new Date().getTime() - start > n) {
+                break;
+            }
+        }
+        // console.log('休眠后：' + new Date().getTime());
+    }
+    $("#submit").click(function(){
+        var url = $("#url").val();
+        if(url == ""){
+            var alert_info = "<div class=\"alert alert-dismissible alert-warning\">\n" +
+                "                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
+                "                <h4 class=\"alert-heading\">Warning!</h4>\n" +
+                "                <p class=\"mb-0\">啥都没输，刷个啥？！</p>\n" +
+                "            </div>";
+            $("#alert_area").empty().append(alert_info);
+            // sleep(1000);
+            // $("#alert_area").empty();
+        }
+        else{
+            $.post("./process.php", {url: url}, function(res){
+                //post回调
+                    var success_info = "<div class=\"alert alert-dismissible alert-success\">\n" +
+                        "  <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
+                        "  <strong>搞定！</strong> 刷好咯，考研加油~\n" +
+                        "</div>";
+                    $("#alert_area").empty().append(success_info);
+            });
+        }
+    })
+</script>
+</html>
